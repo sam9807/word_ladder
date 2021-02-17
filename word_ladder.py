@@ -28,6 +28,30 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     Whenever it is impossible to generate a word ladder between the two words,
     the function returns `None`.
     '''
+    stack = [] #Create a stack
+    ladder = [start_word] 
+    
+    if start_word == end_word:
+        return [start_word]
+    if _adjacent(start_worid, end_word):
+        return [start_word, end_word]
+
+    s = open(dictionary_file, 'r')
+    for word in s.readlines():
+        stack.append(word.strip('\n'))
+    
+    queue = deque()
+    queue.append(queue)
+    while queue: #While the queue is not empty
+        current_queue = queue.popleft()
+        for word in set(stack): #For each word in the dictionary
+            if _adjacent(word, current_queue[-1]): #If the word is adjacent to the top of the stack
+                if word == end_word: #If this word is the end word
+                    return current_queue + [word] #The front stack plus this word is your word ladder
+                new_queue = copy.deepcopy(current_queue) #Make a copy of the stack
+                new_queue.append(word) #Push the found word onto the copy
+                queue.append(new_queue) #Enqueue the copy
+                stack.remove(word) #Delete word from the dictionary
 
 
 def verify_word_ladder(ladder):
@@ -40,6 +64,14 @@ def verify_word_ladder(ladder):
     >>> verify_word_ladder(['stone', 'shone', 'phony'])
     False
     '''
+    if (ladder == []) or (ladder is None):
+        return False
+    for x, word in enumerate(ladder):
+        if x == len(ladder) - 1:
+            return True
+        else:
+            if no_adjacent(word, ladder[x + 1]):
+                return False
 
 
 def _adjacent(word1, word2):
@@ -52,3 +84,13 @@ def _adjacent(word1, word2):
     >>> _adjacent('stone','money')
     False
     '''
+    difference = 0
+    if len(word1) != len(word2):
+        return False
+    for x, letter in enumerate(word1):
+        if word2[x] != letter:
+            difference += 1
+    if difference == 1:
+        return True
+    else:
+        return False
