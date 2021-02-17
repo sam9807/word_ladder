@@ -70,7 +70,7 @@ def verify_word_ladder(ladder):
         if x == len(ladder) - 1:
             return True
         else:
-            if no_adjacent(word, ladder[x + 1]):
+            if not _adjacent(word, ladder[x + 1]):
                 return False
 
 
