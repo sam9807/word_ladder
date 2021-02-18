@@ -43,9 +43,10 @@ def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
     s = open(dictionary_file, 'r')
     for word in s.readlines():
         stack.append(word.strip('\n'))
-
+    
+    ladder = [startword]
     queue = deque()
-    queue.append(queue)
+    queue.append(ladder)
     while queue:   # While the queue is not empty
         current_queue = queue.popleft()
         for word in set(stack):   # For each word in the dictionary
