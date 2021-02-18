@@ -1,7 +1,7 @@
 #!/bin/python3
 
 from collections import deque
-from copy import copy
+import copy
 
 
 def word_ladder(start_word, end_word, dictionary_file='words5.dict'):
